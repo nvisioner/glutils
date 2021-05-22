@@ -7,6 +7,7 @@ type AnimationManager struct {
 	totalElapsed                 float64
 	globalAnimationCount         int
 	angle                        float64
+	elapsed                      float64
 	animationTimes               []float64
 	animationFunctions           []func(t float32)
 	animationContinuousFunctions []func()
@@ -24,12 +25,16 @@ func (am *AnimationManager) AddContunuousAnimation(animation func()) {
 	am.animationContinuousFunctions = append(am.animationContinuousFunctions, animation)
 }
 
+func (am *AnimationManager) GetElapsed() float64 {
+	return am.elapsed
+}
+
 func (am *AnimationManager) Update() {
 	time := glfw.GetTime()
-	elapsed := time - am.previousTime
-	am.totalElapsed += elapsed
+	am.elapsed = time - am.previousTime
+	am.totalElapsed += am.elapsed
 	am.previousTime = time
-	am.angle += elapsed
+	am.angle += am.elapsed
 
 	if am.globalAnimationCount < len(am.animationFunctions) {
 		if animationTime := am.animationTimes[am.globalAnimationCount]; am.totalElapsed < animationTime {
