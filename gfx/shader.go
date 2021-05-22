@@ -22,6 +22,10 @@ func (shader *Shader) Delete() {
 	gl.DeleteShader(shader.handle)
 }
 
+func (prog *Program) Get() uint32 {
+	return prog.handle
+}
+
 func (prog *Program) Delete() {
 	for _, shader := range prog.shaders {
 		shader.Delete()
