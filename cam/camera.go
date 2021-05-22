@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-gl/mathgl/mgl32"
 	"github.com/go-gl/mathgl/mgl64"
-	"github.com/kaitsubaka/glutils/win"
+	"github.com/nvisioner/glutils/win"
 )
 
 type FpsCamera struct {
