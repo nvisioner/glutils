@@ -29,7 +29,7 @@ func NewWindow(width, height int, title string) *Window {
 	}
 
 	gWindow.MakeContextCurrent()
-	gWindow.SetInputMode(glfw.CursorMode, glfw.CursorNormal)
+	gWindow.SetInputMode(glfw.CursorMode, glfw.CursorDisabled)
 
 	im := NewInputManager()
 

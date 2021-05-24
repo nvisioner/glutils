@@ -30,7 +30,7 @@ type FpsCamera struct {
 func NewFpsCamera(position, worldUp mgl32.Vec3, yaw, pitch float64, im *win.InputManager) *FpsCamera {
 	cam := FpsCamera{
 		moveSpeed:         5.00,
-		cursorSensitivity: 0.05,
+		cursorSensitivity: 0.7,
 		pitch:             pitch,
 		yaw:               yaw,
 		pos:               position,
@@ -51,12 +51,13 @@ func (c *FpsCamera) Update(dTime float64) {
 // the camera is to travel in and for how long
 func (c *FpsCamera) updatePosition(dTime float64) {
 	adjustedSpeed := float32(dTime * c.moveSpeed)
+	fixedFront := mgl32.Vec3{c.front.X(), 0, c.front.Z()}
 
 	if c.inputManager.IsActive(win.PLAYER_FORWARD) {
-		c.pos = c.pos.Add(c.front.Mul(adjustedSpeed))
+		c.pos = c.pos.Add(fixedFront.Mul(adjustedSpeed))
 	}
 	if c.inputManager.IsActive(win.PLAYER_BACKWARD) {
-		c.pos = c.pos.Sub(c.front.Mul(adjustedSpeed))
+		c.pos = c.pos.Sub(fixedFront.Mul(adjustedSpeed))
 	}
 	if c.inputManager.IsActive(win.PLAYER_LEFT) {
 		c.pos = c.pos.Sub(c.front.Cross(c.up).Normalize().Mul(adjustedSpeed))
@@ -71,8 +72,8 @@ func (c *FpsCamera) updatePosition(dTime float64) {
 func (c *FpsCamera) updateDirection() {
 	dCursor := c.inputManager.CursorChange()
 
-	dx := -c.cursorSensitivity * dCursor[0]
-	dy := c.cursorSensitivity * dCursor[1]
+	dx := c.cursorSensitivity * dCursor[0]
+	dy := -c.cursorSensitivity * dCursor[1]
 
 	c.pitch += dy
 	if c.pitch > 89.0 {
@@ -107,4 +108,14 @@ func (camera *FpsCamera) GetTransform() mgl32.Mat4 {
 		cameraTarget.X(), cameraTarget.Y(), cameraTarget.Z(),
 		camera.up.X(), camera.up.Y(), camera.up.Z(),
 	)
+}
+
+func (camera *FpsCamera) getPos() mgl32.Vec3 {
+	return camera.pos
+}
+func (camera *FpsCamera) getFront() mgl32.Vec3 {
+	return camera.front
+}
+func (camera *FpsCamera) getAngle() float64 {
+	return camera.yaw
 }

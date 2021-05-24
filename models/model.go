@@ -434,6 +434,7 @@ func (m *Model) textureFromFile(f string) uint32 {
 }
 
 func ImageToPixelData(file string) (*image.RGBA, error) {
+	fmt.Println(file)
 	imgFile, err := os.Open(file)
 	if err != nil {
 		return nil, fmt.Errorf("texture %q not found on disk: %v", file, err)
