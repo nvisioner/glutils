@@ -235,7 +235,7 @@ func (m *Model) loadModel() error {
 	// Read file via ASSIMP
 	path := m.BasePath + m.FileName
 	scene := assimp.ImportFile(path, uint(
-		assimp.Process_Triangulate|assimp.Process_FlipUVs))
+		assimp.Process_Triangulate|assimp.Process_FlipUVs|assimp.Process_CalcTangentSpace))
 
 	// Check for errors
 	if scene.Flags()&assimp.SceneFlags_Incomplete != 0 { // if is Not Zero
@@ -300,18 +300,22 @@ func (m *Model) processMeshVertices(mesh *assimp.Mesh) []Vertex {
 
 	normals := mesh.Normals()
 	useNormals := len(normals) > 0
+	fmt.Println("useNormals: ", useNormals)
 
 	tex := mesh.TextureCoords(0)
 	useTex := true
 	if tex == nil {
 		useTex = false
 	}
+	fmt.Println("useTex: ", useTex)
 
 	tangents := mesh.Tangents()
 	useTangents := len(tangents) > 0
+	fmt.Println("useTangents: ", useTangents)
 
 	bitangents := mesh.Bitangents()
 	useBitTangents := len(bitangents) > 0
+	fmt.Println("useBitTangents: ", useBitTangents)
 
 	for i := 0; i < mesh.NumVertices(); i++ {
 		// We declare a placeholder vector since assimp uses its own vector class that

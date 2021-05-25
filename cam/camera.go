@@ -110,12 +110,12 @@ func (camera *FpsCamera) GetTransform() mgl32.Mat4 {
 	)
 }
 
-func (camera *FpsCamera) getPos() mgl32.Vec3 {
+func (camera *FpsCamera) GetPos() mgl32.Vec3 {
 	return camera.pos
 }
-func (camera *FpsCamera) getFront() mgl32.Vec3 {
+func (camera *FpsCamera) GetFront() mgl32.Vec3 {
 	return camera.front
 }
-func (camera *FpsCamera) getAngle() float64 {
+func (camera *FpsCamera) GetAngle() float64 {
 	return camera.yaw
 }
